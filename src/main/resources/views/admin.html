@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Tip Tracker</title>
+    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+    <style>
+        body {
+            background-color: rgba(30, 30, 30, 0.9);
+            color: white;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-weight: 300;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 1.5em;
+        }
+        form {
+            background: rgba(45, 45, 45, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: #ccc;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #333;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #666;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        button:hover {
+            background: #357abd;
+        }
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .success {
+            background: rgba(40, 167, 69, 0.2);
+            color: #4cd137;
+            border: 1px solid #28a745;
+        }
+        .error {
+            background: rgba(220, 53, 69, 0.2);
+            color: #ff7675;
+            border: 1px solid #dc3545;
+        }
+        .action-card {
+            background: rgba(45, 45, 45, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            margin-top: 30px;
+        }
+        .btn-danger {
+            background: #e74c3c;
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .btn-row button {
+            margin-bottom: 0 !important;
+            flex: 1;
+        }
+        .htmx-indicator {
+            display: none;
+            margin-left: 10px;
+        }
+        .htmx-request .htmx-indicator {
+            display: inline;
+        }
+        .htmx-request.button {
+            background: #666;
+        }
+        .nav-link {
+            margin-top: 20px;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .nav-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Settings</h1>
+    
+    <form hx-post="/admin/save-token" hx-target="#feedback-token" hx-indicator="#loading-indicator-token" style="margin-bottom: 30px;">
+        <div class="form-group">
+            <label for="jwtToken">JWT Token (Write-Only)</label>
+            <input type="password" id="jwtToken" name="jwtToken" placeholder="Enter new JWT token" required>
+        </div>
+        <button type="submit" id="save-token-btn">
+            Save JWT Token
+            <span id="loading-indicator-token" class="htmx-indicator">...</span>
+        </button>
+        <div id="feedback-token" style="margin-top: 20px;"></div>
+    </form>
+
+    <form hx-post="/admin/save-time-range" hx-target="#feedback-time" hx-indicator="#loading-indicator-time">
+        <div class="form-group">
+            <label for="startTimestamp">Start Date and Time (UTC) - Optional</label>
+            <input type="datetime-local" id="startTimestamp" name="startTimestamp" th:value="${startLocalDateTime}">
+        </div>
+        <div class="form-group">
+            <label for="endTimestamp">End Date and Time (UTC) - Optional</label>
+            <input type="datetime-local" id="endTimestamp" name="endTimestamp" th:value="${endLocalDateTime}">
+        </div>
+        <button type="submit" id="save-time-btn">
+            Save Time Range
+            <span id="loading-indicator-time" class="htmx-indicator">...</span>
+        </button>
+        <div id="feedback-time" style="margin-top: 20px;"></div>
+    </form>
+    
+    <div class="action-card">
+        <div class="form-group">
+            <label>Server Actions</label>
+            <div class="btn-row">
+                <button hx-post="/admin/refresh" hx-target="#feedback-actions" hx-indicator="#loading-indicator-refresh">
+                    Refresh Tips Now
+                    <span id="loading-indicator-refresh" class="htmx-indicator">...</span>
+                </button>
+                <button hx-post="/admin/shutdown" hx-target="#feedback-actions" hx-indicator="#loading-indicator-shutdown" class="btn-danger" hx-confirm="Are you sure you want to shut down the application?">
+                    Shut Down Application
+                    <span id="loading-indicator-shutdown" class="htmx-indicator">...</span>
+                </button>
+            </div>
+        </div>
+        <div id="feedback-actions" style="margin-top: 20px;"></div>
+    </div>
+
+    <a href="/" class="nav-link">&larr; Back to Top Tippers</a>
+</body>
+</html>

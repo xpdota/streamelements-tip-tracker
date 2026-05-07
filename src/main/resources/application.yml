@@ -8,6 +8,7 @@ micronaut:
       default:
         num-threads: 0
         prefer-native-transport: true
+    executor: io
   executor:
     io:
       type: virtual

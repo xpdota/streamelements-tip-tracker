@@ -19,13 +19,20 @@ class TipService {
 	StreamElementsConfig config
 
 	@Inject
+	SettingsService settingsService
+
+	@Inject
 	StreamElementsClient client
 
 	private List<TipperSum> cachedTips = new CopyOnWriteArrayList<>()
 
-	@Scheduled(fixedDelay = "1m", initialDelay = "5s")
+	@Scheduled(fixedDelay = "1m", initialDelay = "3s")
 	void refreshTips() {
-		log.info("Refreshing tips from StreamElements (API Base: {}, Start: {})", config.apiBase, config.startTimestamp)
+		if (!settingsService.isTokenConfigured()) {
+			log.info("StreamElements token not configured, skipping tip refresh")
+			return
+		}
+		log.info("Refreshing tips from StreamElements (API Base: {}, Start: {}, End: {})", config.apiBase, settingsService.startTimestamp, settingsService.endTimestamp)
 		try {
 			cachedTips = fetchTopTippers()
 			log.info("Successfully refreshed ${cachedTips.size()} tippers")
@@ -40,7 +47,7 @@ class TipService {
 	}
 
 	private List<TipperSum> fetchTopTippers() {
-		String authHeader = "Bearer ${config.jwtToken}"
+		String authHeader = "Bearer ${settingsService.jwtToken}"
 		def me = client.getMe(authHeader)
 
 		List<StreamElementsClient.Tip> allTips = []
@@ -48,7 +55,13 @@ class TipService {
 		int limit = 100
 
 		while (true) {
-			def response = client.getTips(authHeader, me._id, offset, limit, "createdAt", config.startTimestamp)
+			String start = settingsService.startTimestamp
+			String end = settingsService.endTimestamp
+			
+			// StreamElements API expects null or a valid date. Empty strings cause 400.
+			def response = client.getTips(authHeader, me._id, offset, limit, "createdAt", 
+				start?.trim() ?: null, 
+				end?.trim() ?: null)
 			if (!response.docs) {
 				log.info("No more tips found at offset {}", offset)
 				break

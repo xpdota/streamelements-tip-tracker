@@ -42,8 +42,11 @@
     <h1>Top 10 Tippers</h1>
     
     <div id="tips-container">
-        <table>
-            <tbody id="tips-table-body" hx-get="/tips/table" hx-trigger="every 60s" hx-swap="innerHTML">
+        <div th:if="${!tokenConfigured}" style="text-align: center; font-size: 1.2em; margin-top: 50px; opacity: 0.7;">
+            Token not configured
+        </div>
+        <table th:if="${tokenConfigured}">
+            <tbody id="tips-table-body" hx-get="/tips/table" hx-trigger="every 5s" hx-swap="innerHTML">
                 <!-- Initial render using the same fragment -->
                 <th:block th:insert="~{fragments/tips-table}"></th:block>
             </tbody>

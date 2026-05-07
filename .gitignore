@@ -44,3 +44,4 @@ bin/
 
 ### Local Config ###
 src/main/resources/application-local.yml
+data/
