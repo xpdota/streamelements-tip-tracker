@@ -1,0 +1,18 @@
+micronaut:
+  application:
+    name: tip-tracker
+  server:
+    port: 8080
+  netty:
+    event-loops:
+      default:
+        num-threads: 0
+        prefer-native-transport: true
+  executor:
+    io:
+      type: virtual
+
+streamelements:
+  jwt-token: ${SE_JWT_TOKEN:your_jwt_token}
+  api-base: https://api.streamelements.com
+  start-timestamp: "2024-01-01T00:00:00Z"
