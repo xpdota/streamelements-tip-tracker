@@ -1,4 +1,4 @@
 <tr th:each="tipper : ${tips}" xmlns:th="http://www.thymeleaf.org">
-    <td th:text="${tipper.username}">Username</td>
-    <td th:text="${#numbers.formatDecimal(tipper.amount, 1, 2)}">0.00</td>
+    <td class="username" th:text="${tipper.username}">Username</td>
+    <td class="amount" th:text="${#numbers.formatDecimal(tipper.amount, 1, 2)}">0.00</td>
 </tr>
