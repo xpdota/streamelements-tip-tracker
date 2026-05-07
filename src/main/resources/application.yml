@@ -15,4 +15,4 @@ micronaut:
 streamelements:
   jwt-token: ${SE_JWT_TOKEN:your_jwt_token}
   api-base: https://api.streamelements.com
-  start-timestamp: "2024-01-01T00:00:00Z"
+  start-timestamp: ${SE_START_TIMESTAMP:2024-01-01T00:00:00Z}

@@ -11,11 +11,12 @@ A Micronaut-based web application that displays a ranked list of top tippers fro
 
 The application requires a StreamElements JWT token to authenticate with the API. You can provide this in several ways:
 
-### 1. Environment Variable (Recommended)
-Set the `SE_JWT_TOKEN` environment variable before running the application:
+### 1. Environment Variables (Recommended)
+Set the environment variables before running the application:
 
 ```powershell
 $env:SE_JWT_TOKEN="your_jwt_token_here"
+$env:SE_START_TIMESTAMP="2024-01-01T00:00:00Z"
 .\gradlew run
 ```
 
@@ -25,6 +26,7 @@ Create a file named `src/main/resources/application-local.yml` (this file is ign
 ```yaml
 streamelements:
   jwt-token: "your_jwt_token_here"
+  start-timestamp: "2024-01-01T00:00:00Z"
 ```
 
 Then run with the `local` environment enabled:
@@ -34,6 +36,10 @@ Then run with the `local` environment enabled:
 
 ### 3. Application Defaults
 You can also modify `src/main/resources/application.yml` directly, though this is not recommended for secrets.
+
+### Configuring the Start Date
+
+By default, the application tracks tips from `2024-01-01T00:00:00Z`. You can change this using the `SE_START_TIMESTAMP` environment variable or by adding `start-timestamp` to your `application-local.yml`. The value must be an ISO-8601 formatted timestamp.
 
 ## Finding your JWT Token
 
