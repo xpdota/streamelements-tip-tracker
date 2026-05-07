@@ -14,10 +14,20 @@ The application requires a StreamElements JWT token to authenticate with the API
 ### 1. Environment Variables (Recommended)
 Set the environment variables before running the application:
 
+#### Powershell
+
 ```powershell
 $env:SE_JWT_TOKEN="your_jwt_token_here"
 $env:SE_START_TIMESTAMP="2024-01-01T00:00:00Z"
-.\gradlew run
+.\gradlew.bat run
+```
+
+#### Bash
+
+```bash
+export SE_JWT_TOKEN="your_jwt_token_here"
+export SE_START_TIMESTAMP="2024-01-01T00:00:00Z"
+./gradlew.bat run
 ```
 
 ### 2. Local Configuration File
@@ -31,7 +41,7 @@ streamelements:
 
 Then run with the `local` environment enabled:
 ```powershell
-.\gradlew run -Dmicronaut.environments=local
+.\gradlew.bat run -Dmicronaut.environments=local
 ```
 
 ### 3. Application Defaults
@@ -55,7 +65,7 @@ To find your Personal Access Token:
 ### Command Line (Gradle)
 Run the following command in the project root:
 ```powershell
-.\gradlew run
+.\gradlew.bat run
 ```
 The application will be available at `http://localhost:8080`.
 
