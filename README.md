@@ -4,8 +4,8 @@ A Micronaut-based web application that displays a ranked list of top tippers fro
 
 ## Prerequisites
 
-- **Java 25**: This project targets Java 25 and utilizes Virtual Threads for efficient blocking I/O.
-- **StreamElements Account**: You will need a Personal Access Token (JWT) from StreamElements.
+- Java 25
+- StreamElements JWT Token (see below)
 
 ## Configuration
 
@@ -60,8 +60,3 @@ The application will be available at `http://localhost:8080`.
 4. Right-click the `main` method and select **Run 'Application'**.
 5. To set environment variables or Micronaut environments, edit the **Run Configuration**.
 
-## Features
-
-- **Background Refresh**: Tips are fetched and aggregated every minute in the background.
-- **Dynamic UI**: The web page uses [htmx](https://htmx.org/) to automatically refresh the table every minute without reloading the page.
-- **Modern Look**: A clean, dark-themed interface designed for overlays or monitoring.
